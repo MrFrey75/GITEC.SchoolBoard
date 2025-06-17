@@ -38,12 +38,12 @@ with app.app_context():
     # ---------------------------
     # Users
     # ---------------------------
-    user1 = User(username="admin")
-    user1.set_password("adminpass")
-    user2 = User(username="editor")
-    user2.set_password("editorpass")
-    user3 = User(username="viewer")
-    user3.set_password("viewerpass")
+    user1 = User(username="admin", is_system_admin = True)
+    user1.set_password("password")
+    user2 = User(username="editor", is_system_admin = False)
+    user2.set_password("password")
+    user3 = User(username="viewer", is_system_admin = False)
+    user3.set_password("password")
 
     db.session.add_all([user1, user2, user3])
     print("👤 Added 3 users.")
@@ -51,13 +51,13 @@ with app.app_context():
     # ---------------------------
     # Board 1
     # ---------------------------
-    board1 = Board(title="Board One", slug_identifier="board-one", is_published=True)
+    board1 = Board(title="Board One", slug_identifier="board-one", is_published=True, description="This is the first board.")
     db.session.add(board1)
     db.session.flush()
 
-    page1_1 = Page(title="Page 1 of Board 1", board_id=board1.id, sort_order=1, is_published=True)
-    page1_2 = Page(title="Page 2 of Board 1", board_id=board1.id, sort_order=2, is_published=True)
-    page1_3 = Page(title="Page 3 of Board 1", board_id=board1.id, sort_order=3, is_published=True)
+    page1_1 = Page(title="Page 1 of Board 1", board_id=board1.id, sort_order=1, is_published=True, description="This is the first page of Board 1.")
+    page1_2 = Page(title="Page 2 of Board 1", board_id=board1.id, sort_order=2, is_published=True, description="This is the second page of Board 1.")
+    page1_3 = Page(title="Page 3 of Board 1", board_id=board1.id, sort_order=3, is_published=True, description="This is the third page of Board 1.")
     db.session.add_all([page1_1, page1_2, page1_3])
     db.session.flush()
 
@@ -77,13 +77,13 @@ with app.app_context():
     # ---------------------------
     # Board 2
     # ---------------------------
-    board2 = Board(title="Board Two", slug_identifier="board-two", is_published=True)
+    board2 = Board(title="Board Two", slug_identifier="board-two", is_published=True, description="This is the second board.")
     db.session.add(board2)
     db.session.flush()
 
-    page2_1 = Page(title="Page 1 of Board 2", board_id=board2.id, sort_order=1, is_published=True)
-    page2_2 = Page(title="Page 2 of Board 2", board_id=board2.id, sort_order=2, is_published=True)
-    page2_3 = Page(title="Page 3 of Board 2", board_id=board2.id, sort_order=3, is_published=True)
+    page2_1 = Page(title="Page 1 of Board 2", board_id=board2.id, sort_order=1, is_published=True, description="This is the first page of Board 2.")
+    page2_2 = Page(title="Page 2 of Board 2", board_id=board2.id, sort_order=2, is_published=True, description="This is the second page of Board 2.")
+    page2_3 = Page(title="Page 3 of Board 2", board_id=board2.id, sort_order=3, is_published=True, description="This is the third page of Board 2.")
     db.session.add_all([page2_1, page2_2, page2_3])
     db.session.flush()
 
@@ -103,13 +103,13 @@ with app.app_context():
     # ---------------------------
     # Board 3
     # ---------------------------
-    board3 = Board(title="Board Three", slug_identifier="board-three", is_published=True)
+    board3 = Board(title="Board Three", slug_identifier="board-three", is_published=True, description="This is the third board.")
     db.session.add(board3)
     db.session.flush()
 
-    page3_1 = Page(title="Page 1 of Board 3", board_id=board3.id, sort_order=1, is_published=True)
-    page3_2 = Page(title="Page 2 of Board 3", board_id=board3.id, sort_order=2, is_published=True)
-    page3_3 = Page(title="Page 3 of Board 3", board_id=board3.id, sort_order=3, is_published=True)
+    page3_1 = Page(title="Page 1 of Board 3", board_id=board3.id, sort_order=1, is_published=True, description="This is the first page of Board 3.")
+    page3_2 = Page(title="Page 2 of Board 3", board_id=board3.id, sort_order=2, is_published=True, description="This is the second page of Board 3.")
+    page3_3 = Page(title="Page 3 of Board 3", board_id=board3.id, sort_order=3, is_published=True, description="This is the third page of Board 3.")
     db.session.add_all([page3_1, page3_2, page3_3])
     db.session.flush()
 
