@@ -16,10 +16,3 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-
-    def is_admin(self):
-        return self.is_system_admin
-
-    @staticmethod
-    def does_username_exist(username):
-        return User.query.filter_by(username=username).first() is not None

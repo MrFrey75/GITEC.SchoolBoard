@@ -1,18 +1,54 @@
-﻿<!-- app/templates/admin/manage_settings.html -->
-{% extends 'admin/admin_layout.html' %}
+﻿{% extends 'admin/admin_layout.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container" style="max-width: 800px;">
   <h2>Manage Settings</h2>
 
-  <form action="{{ url_for('admin.update_settings') }}" method="post" class="form-group">
+  <!-- Update Existing Settings -->
+  <form action="{{ url_for('admin.update_settings') }}" method="post">
     {% for setting in appsettings %}
-      <div style="margin-bottom: 1rem;">
-        <label for="{{ setting.key }}"><strong>{{ setting.description }}</strong> [{{ setting.key }}]</label><br>
+      <div style="margin-bottom: 1.5rem;">
+        <label for="{{ setting.key }}">
+          <strong>{{ setting.description or setting.key }}</strong>
+          <small style="color: #888;">[{{ setting.key }}]</small>
+        </label>
         <input type="text" id="{{ setting.key }}" name="{{ setting.key }}" value="{{ setting.value }}" style="width: 100%;" />
       </div>
     {% endfor %}
-    <button type="submit">Save Settings</button>
+
+    <div style="margin-top: 2rem;">
+      <button type="submit" class="button">Save Settings</button>
+    </div>
   </form>
+
+  <hr style="margin: 3rem 0;">
+
+  <!-- Add New Setting -->
+  <h3>Add New Setting</h3>
+<form action="{{ url_for('admin.create_setting') }}" method="post">
+  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;">
+
+
+    <div style="flex: 1; min-width: 200px;">
+      <label for="new_description">Description</label>
+      <input type="text" name="new_description" id="new_description" placeholder="e.g., Text shown on homepage banner" required>
+    </div>
+
+    <div style="flex: 1; min-width: 200px;">
+      <label for="new_key">Key</label>
+      <input type="text" name="new_key" id="new_key" placeholder="e.g., homepage_banner_text" required>
+    </div>
+
+    <div style="flex: 1; min-width: 200px;">
+      <label for="new_value">Value</label>
+      <input type="text" name="new_value" id="new_value" placeholder="e.g., Welcome to InfoVue!" required>
+    </div>
+
+    <div>
+      <button type="submit" class="button">Add Setting</button>
+    </div>
+
+  </div>
+</form>
 </div>
 {% endblock %}

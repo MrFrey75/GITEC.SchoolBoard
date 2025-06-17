@@ -1,18 +1,31 @@
 ﻿<!-- app/templates/admin/edit_user.html -->
 
 {% extends 'admin/admin_layout.html' %}
+
 {% block content %}
-<div class="container">
+<div class="container" style="max-width: 600px;">
   <h2>Edit User</h2>
 
   <form method="POST" action="{{ url_for('admin.edit_user', user_id=user.id) }}">
-    <label for="username">Username</label>
-    <input type="text" name="username" id="username" value="{{ user.username }}" required>
+    <label for="username">
+      Username
+      <input type="text" name="username" id="username" value="{{ user.username }}" required>
+    </label>
 
-    <label for="password">New Password (leave blank to keep current)</label>
-    <input type="password" name="password" id="password">
+    <label for="password">
+      New Password (leave blank to keep current)
+      <input type="password" name="password" id="password">
+    </label>
 
-    <button type="submit">Save Changes</button>
+    <label for="is_system_admin">
+      <input type="checkbox" name="is_system_admin" id="is_system_admin" {% if user.is_system_admin %}checked{% endif %}>
+      System Administrator
+    </label>
+
+    <div style="margin-top: 1rem;">
+      <button type="submit" class="button">Save Changes</button>
+      <a href="{{ url_for('admin.users') }}" class="button" style="background-color: #333;">Cancel</a>
+    </div>
   </form>
 </div>
 {% endblock %}

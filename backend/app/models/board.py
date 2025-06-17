@@ -16,3 +16,6 @@ class Board(db.Model):
 
     # This allows you to access all pages of a board using `board.pages`.
     pages = db.relationship('Page', back_populates='board', lazy=True, order_by='Page.sort_order', cascade="all, delete-orphan")
+
+    def __repr__(self):
+        return f"<Board {self.title} (ID: {self.id})>"

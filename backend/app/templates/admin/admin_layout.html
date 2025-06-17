@@ -6,21 +6,24 @@
     <meta charset="UTF-8">
     <title>GITEC.InfoVue</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="/static/css/main.css">
-    <link rel="stylesheet" href="/static/css/pico.min.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
 </head>
-<body class="base-body" style="background-color: #000; color: #fff;">
-  <div class="content-wrapper">
-    <h1>Admin Dashboard</h1>
+<body>
+  <header>
+    <h1>SchoolBoard Admin</h1>
     <nav>
       <ul>
-        <li><a href="{{ url_for('admin.users') }}">Manage Users</a></li>
-        <li><a href="{{ url_for('admin.media') }}">Manage Media</a></li>
-        <li><a href="{{ url_for('admin.settings') }}">Manage Settings</a></li>
+        <li><a href="{{ url_for('admin.dashboard') }}">Dashboard</a></li>
+        <li><a href="{{ url_for('admin.users') }}">Users</a></li>
+        <li><a href="{{ url_for('admin.media') }}">Media</a></li>
+        <li><a href="{{ url_for('admin.settings') }}">Settings</a></li>
         <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
       </ul>
     </nav>
+  </header>
+
+  <main class="content-wrapper">
     {% block content %}{% endblock %}
-  </div>
+  </main>
 </body>
 </html>

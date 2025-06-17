@@ -14,15 +14,18 @@ class Section(db.Model):
     sort_order = db.Column(db.Integer, default=0)
     section_type = db.Column(db.Enum(SectionType), nullable=False, default=SectionType.TEXT)
 
+    content = db.Column(db.Text, nullable=True)
 
     title = db.Column(db.String(100), nullable=False)
 
     start_time = db.Column(db.DateTime, nullable=True)
     end_time = db.Column(db.DateTime, nullable=True)
 
-    is_published = db.Column(db.Boolean, default=False)
     is_deleted = db.Column(db.Boolean, default=False)
     is_system = db.Column(db.Boolean, default=False)
 
     # This allows you to access the parent page of a section using `section.page`.
     page = db.relationship('Page', back_populates='sections')
+
+    def __repr__(self):
+        return f"<Section {self.title} (ID: {self.id}) on Page {self.page_id}>"

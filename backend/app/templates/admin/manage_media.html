@@ -3,39 +3,45 @@
 {% extends 'admin/admin_layout.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container" style="max-width: 900px;">
   <h2>Manage Media</h2>
 
   <!-- Upload Form -->
   <form action="{{ url_for('admin.upload_media') }}" method="post" enctype="multipart/form-data" style="margin-bottom: 2rem;">
-    <label for="file">Upload File:</label>
-    <input type="file" name="file" id="file" required>
-    <button type="submit">Upload</button>
+    <label for="file">
+      Upload File:
+      <input type="file" name="file" id="file" required>
+    </label>
+    <button type="submit" class="button">Upload</button>
   </form>
 
-  <!-- Uploaded Files List -->
   {% if files %}
     <table class="striped">
       <thead>
         <tr>
-          <th>Filename</th>
-          <th>Preview</th>
-          <th>Actions</th>
+          <th style="width: 30%;">Filename</th>
+          <th style="width: 40%;">Preview</th>
+          <th style="width: 30%; text-align: right;">Actions</th>
         </tr>
       </thead>
       <tbody>
         {% for filename in files %}
           <tr>
-            <td>{{ filename }}</td>
+            <td>
+              <strong>{{ filename }}</strong>
+              <br>
+              <small style="word-break: break-all;">/static/uploads/{{ filename }}</small>
+            </td>
             <td>
               {% if filename.endswith(('.jpg', '.jpeg', '.png', '.gif', '.webp')) %}
-                <img src="{{ url_for('static', filename='uploads/' + filename) }}" alt="{{ filename }}">
-                {{ url_for('static', filename='uploads/' + filename) }}
+                <img src="{{ url_for('static', filename='uploads/' + filename) }}"
+                     alt="{{ filename }}"
+                     style="max-height: 80px; border-radius: 6px;">
               {% else %}
                 <em>No preview</em>
               {% endif %}
             </td>
-            <td>
+            <td style="text-align: right;">
               <form method="post" action="{{ url_for('admin.delete_media', filename=filename) }}" onsubmit="return confirm('Delete this file?');">
                 <button type="submit" class="button small">Delete</button>
               </form>

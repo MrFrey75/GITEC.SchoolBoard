@@ -3,10 +3,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, session
 from functools import wraps
 from app.models.board import Board
+from app.models.page import Page
+from app.models.section import Section
 from app.models.settings import AppSetting
 from app.models.user import User
 from app.main import db
-from werkzeug.utils import secure_filename
+from werkzeug.utils import secure_filename, datetime
 import os
 
 bp = Blueprint('admin', __name__, url_prefix='/admin')
@@ -56,6 +58,29 @@ def update_settings():
     db.session.commit()
     flash("Settings updated successfully.", "success")
     return redirect(url_for("admin.settings"))
+
+@bp.route("/settings/create", methods=["POST"])
+@login_required
+def create_setting():
+    key = request.form.get("new_key").strip()
+    value = request.form.get("new_value").strip()
+    description = request.form.get("new_description", "").strip()
+
+    if not key or not value:
+        flash("Key and value are required.", "danger")
+        return redirect(url_for("admin.settings"))
+
+    existing = AppSetting.query.filter_by(key=key).first()
+    if existing:
+        flash("A setting with that key already exists.", "danger")
+        return redirect(url_for("admin.settings"))
+
+    new_setting = AppSetting(key=key, value=value, description=description)
+    db.session.add(new_setting)
+    db.session.commit()
+    flash("New setting added.", "success")
+    return redirect(url_for("admin.settings"))
+
 
 # -----------------------------
 # Users
@@ -178,3 +203,92 @@ def delete_media(filename):
 # -----------------------------
 # Boards
 # -----------------------------
+
+@bp.route("/board/edit/<int:board_id>", methods=["GET"])
+@login_required
+def edit_board(board_id):
+    if board_id == 0:
+        board = Board()
+        flash("Creating a new board.", "info")
+    else:
+        board = Board.query.get(board_id)
+        flash("Editing board.", "info")
+
+    return render_template("admin/edit_board.html", board=board)
+
+@bp.route("/board/update/<int:board_id>", methods=["POST"])
+@login_required
+def update_board(board_id):
+    if board_id == 0:
+        board = Board()
+        flash("Board created successfully.", "success")
+    else:
+        board  = Board.query.get(board_id)
+        flash("Board updated successfully.", "success")
+
+    return redirect(url_for("admin.edit_board", board_id=board.id))
+
+@bp.route("/board/delete/<int:board_id>", methods=["POST"])
+@login_required
+def delete_board(board_id):
+    board = Board.query.get(board_id)
+    board.is_deleted = True
+    db.session.commit()
+    flash("Board deleted successfully.", "success")
+    return redirect(url_for("admin.dashboard"))
+
+# -----------------------------
+# Pages
+# -----------------------------
+
+@bp.route("/page/delete/<int:page_id>", methods=["POST"])
+@login_required
+def delete_page(page_id):
+    page = Page.query.get(page_id)
+    if page:
+        db.session.delete(page)
+        db.session.commit()
+        flash("Page deleted.", "success")
+    return redirect(request.referrer or url_for("admin.dashboard"))
+
+@bp.route("/section/delete/<int:section_id>", methods=["POST"])
+@login_required
+def delete_section(section_id):
+    section = Section.query.get(section_id)
+    if section:
+        db.session.delete(section)
+        db.session.commit()
+        flash("Section deleted.", "success")
+    return redirect(request.referrer or url_for("admin.dashboard"))
+
+# -----------------------------
+# Sections
+# -----------------------------
+
+@bp.route("/section/update/<int:section_id>", methods=["POST"])
+@login_required
+def update_section(section_id):
+    section = Section.query.get_or_404(section_id)
+
+    section.title = request.form.get("title", section.title)
+    section.section_type = request.form.get("section_type", section.section_type.name)
+    section.content = request.form.get("content", section.content)
+
+    start_time = request.form.get("start_time")
+    end_time = request.form.get("end_time")
+
+    if start_time:
+        section.start_time = datetime.fromisoformat(start_time)
+    else:
+        section.start_time = None
+
+    if end_time:
+        section.end_time = datetime.fromisoformat(end_time)
+    else:
+        section.end_time = None
+
+    db.session.commit()
+    flash("Section updated successfully.", "success")
+    return redirect(request.referrer or url_for("admin.dashboard"))
+
+

@@ -1,11 +1,26 @@
 ﻿<!-- app/templates/admin/dashboard.html -->
 
 {% extends 'admin/admin_layout.html' %}
+
 {% block content %}
 
-<!--- navbar Home/Media/Settings/Users -->
+<div class="container" style="max-width: 900px;">
 
-<!-- Create a new board button => create_board.html -->
-<!-- display the non-deleted boards in a list with view (display_board.html) and manage (edit_board.html) buttons -->
+    <ul>
+    {% for board in boards %}
+
+        <li>
+            <a href="{{ url_for('admin.edit_board', board_id=board.id) }}">{{ board.title }}</a>
+            {% if board.id %}
+                <form method="post" action="{{ url_for('admin.delete_board', board_id=board.id) }}" style="display: inline;">
+                    <button type="submit" class="button small" onclick="return confirm('Are you sure you want to delete this board?');">Delete</button>
+                </form>
+            {% endif %}
+        </li>
+
+    {% endfor %}
+    </ul>
+</div>
+
 
 {% endblock %}

@@ -1,22 +1,13 @@
 ﻿<!-- app/templates/admin/edit_board.html -->
-
 {% extends 'admin/admin_layout.html' %}
+
 {% block content %}
+<div class="container">
+  {% if board.id %}
+    <h2>Edit Board: {{ board.title }}</h2>
+  {% else %}
+    <h2>Create New Board</h2>
+  {% endif %}
 
-
-<!-- BOARD INFORMATION -->
-<!-- title -->
-<!-- unique slug-identifier -->
-<!-- description -->
-
-<!-- toggle publish button -->
-<!-- soft delete button -->
-
-<!-- pages in tabbed view / create new page -->
-
-
-
-
-
-
+</div>
 {% endblock %}

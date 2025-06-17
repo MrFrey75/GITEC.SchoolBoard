@@ -10,5 +10,3 @@ class AppSetting(db.Model):
     description = db.Column(db.String(255), nullable=False) # Description of the app setting
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp()) # Timestamp for when the app setting was created
 
-    def __repr__(self):
-        return f"<AppSettings {self.key}: {self.value}>"
