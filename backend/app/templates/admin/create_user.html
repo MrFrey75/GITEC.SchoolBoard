@@ -1,0 +1,18 @@
+﻿<!-- app/templates/admin/create_user.html -->
+
+{% extends 'admin/admin_layout.html' %}
+{% block content %}
+<div class="container">
+  <h2>Create New User</h2>
+
+  <form method="POST" action="{{ url_for('admin.create_user') }}">
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" required>
+
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required>
+
+    <button type="submit">Create User</button>
+  </form>
+</div>
+{% endblock %}

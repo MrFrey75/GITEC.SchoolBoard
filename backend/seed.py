@@ -22,18 +22,28 @@ with app.app_context():
     # ---------------------------
 
     setting1 = AppSetting()
-    setting1.key = "background-color"
+    setting1.key = "default-background-color"
     setting1.value = "#ffffff"
-    setting1.description = "Default background color for the application."
+    setting1.description = "Default Background Color"
 
     setting2 = AppSetting()
-    setting2.key = "text-color"
+    setting2.key = "default-text-color"
     setting2.value = "#000000"
-    setting2.description = "Default text color for the application."
+    setting2.description = "Default Text Color"
 
-    db.session.add_all([setting1, setting2])
+    setting3 = AppSetting()
+    setting3.key = "default-font"
+    setting3.value = "Arial, sans-serif"
+    setting3.description = "Default Font"
 
-    print("⚙️ Added 2 app settings.")
+    setting4 = AppSetting()
+    setting4.key = "home-zipcode"
+    setting4.value = "48858"
+    setting4.description = "Default Home Zip Code"
+
+    db.session.add_all([setting1, setting2, setting3, setting4])
+
+    print("⚙️ Added app settings.")
 
     # ---------------------------
     # Users

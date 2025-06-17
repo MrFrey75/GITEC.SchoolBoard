@@ -1,7 +1,18 @@
 ﻿<!-- app/templates/admin/manage_settings.html -->
-
 {% extends 'admin/admin_layout.html' %}
+
 {% block content %}
+<div class="container">
+  <h2>Manage Settings</h2>
 
-
+  <form action="{{ url_for('admin.update_settings') }}" method="post" class="form-group">
+    {% for setting in appsettings %}
+      <div style="margin-bottom: 1rem;">
+        <label for="{{ setting.key }}"><strong>{{ setting.description }}</strong> [{{ setting.key }}]</label><br>
+        <input type="text" id="{{ setting.key }}" name="{{ setting.key }}" value="{{ setting.value }}" style="width: 100%;" />
+      </div>
+    {% endfor %}
+    <button type="submit">Save Settings</button>
+  </form>
+</div>
 {% endblock %}

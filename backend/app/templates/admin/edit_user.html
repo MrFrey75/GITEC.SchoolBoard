@@ -1,0 +1,18 @@
+﻿<!-- app/templates/admin/edit_user.html -->
+
+{% extends 'admin/admin_layout.html' %}
+{% block content %}
+<div class="container">
+  <h2>Edit User</h2>
+
+  <form method="POST" action="{{ url_for('admin.edit_user', user_id=user.id) }}">
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" value="{{ user.username }}" required>
+
+    <label for="password">New Password (leave blank to keep current)</label>
+    <input type="password" name="password" id="password">
+
+    <button type="submit">Save Changes</button>
+  </form>
+</div>
+{% endblock %}

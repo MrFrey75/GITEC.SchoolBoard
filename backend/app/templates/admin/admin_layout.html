@@ -12,6 +12,14 @@
 <body class="base-body" style="background-color: #000; color: #fff;">
   <div class="content-wrapper">
     <h1>Admin Dashboard</h1>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('admin.users') }}">Manage Users</a></li>
+        <li><a href="{{ url_for('admin.media') }}">Manage Media</a></li>
+        <li><a href="{{ url_for('admin.settings') }}">Manage Settings</a></li>
+        <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+      </ul>
+    </nav>
     {% block content %}{% endblock %}
   </div>
 </body>
